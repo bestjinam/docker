@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mariadb:
+  wordprss:
+  nginx:
+volumes:
+  mariadb:
+  wordpress:
+networks:
+  inception:
+    driver: bridge
