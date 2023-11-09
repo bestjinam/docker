@@ -16,10 +16,21 @@ services:
       - "3306"
     networks:
       - docker-network
+    #healthcheck:
+    #cmd: mysqladmin ping -hlocalhost -uroot > /dev/null 2>&1
+    healthcheck:
+        test: [ "CMD", "mysqladmin","ping", "-hlocalhost", "-uroot"]
+        start_period: 1m
+        start_interval: 10s
+        interval: 1m
+        timeout: 5s
+        retries: 3
 
   wordpress:
     depends_on:
-      - mariadb
+      #- mariadb
+      mariadb:
+        condition: service_healthy
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile

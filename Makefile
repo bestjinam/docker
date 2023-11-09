@@ -5,7 +5,7 @@ DOCKER_COMPOSE := docker compose
 all: up
 
 up: makeDirs
-	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml up -d
+	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml up -d --build
 
 down:
 	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml down

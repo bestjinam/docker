@@ -9,9 +9,9 @@ chmod -R 755 /var/www/html
 mkdir -p /run/php
 
 # Install wp-cli
-wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /dev/null 2>&1
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
+#wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /dev/null 2>&1
+#chmod +x wp-cli.phar
+#mv wp-cli.phar /usr/local/bin/wp
 
 # Wordpress Installation
 if [ ! -f /var/www/html/wp-config.php ]; then
