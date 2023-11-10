@@ -9,31 +9,24 @@ chmod 777 /var/run/mysqld
 # Start MariaDB server
 mysqld --user=root &
 
-max_attempts=60  # 최대 시도 횟수 설정
-attempt=1
-wait_time=1
-
-# Wait for MariaDB to start (limited to max_attempts)
-until mysqladmin ping -hlocalhost -uroot > /dev/null 2>&1 || [ $attempt -ge $max_attempts ]; do
-    echo "Waiting for MariaDB to start (Attempt $attempt)..."
-    sleep $wait_time
-    attempt=$((attempt + 1))
+# Wait for MariaDB to start
+until mysqladmin ping -hlocalhost -uroot > /dev/null 2>&1; do
+    echo "Waiting for MariaDB to start..."
+    sleep 1
 done
 
-if [ $attempt -ge $max_attempts ]; then
-    echo "MariaDB did not start within the specified time. Exiting."
-    exit 1
-fi
-
 # Execute initialization commands
-mysqld --user=mysql --datadir=/var/lib/mysql --bootstrap << EOF
-FLUSH PRIVILEGES;
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" <<EOF
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+FLUSH PRIVILEGES;
 CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
 CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
 GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
+FLUSH PRIVILEGES;
 EOF
+
+# Stop the temporary MariaDB instance
+mysqladmin -uroot -p${MYSQL_ROOT_PASSWORD} shutdown
 
 # Start the actual MariaDB instance
 exec mysqld --user=mysql
-

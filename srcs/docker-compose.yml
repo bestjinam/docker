@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  mariadb:
+  mariadb: #healthcheck 걸기 
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
@@ -12,7 +12,7 @@ services:
     env_file: .env
     volumes:
       - mariadb_data:/var/lib/mysql
-    expose:
+    expose: #ㅍㅣㄹ요 없지만 민정님은 썻음
       - "3306"
     networks:
       - docker-network
@@ -27,10 +27,13 @@ services:
         retries: 3
 
   wordpress:
-    depends_on:
-      #- mariadb
-      mariadb:
-        condition: service_healthy
+    depends_on: # 내부 옵션이 있음 - healthcheck
+      - mariadb # long syntax 로 해서
+    # depends_on:
+    #   mariadb:
+    #     condition: service_healthy
+    #   redis :??? 
+    #
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
@@ -45,6 +48,9 @@ services:
       - "9000"
     networks:
       - docker-network
+    # healthcheck:
+    #   cmd: curl -X GET http://localhost:8080 
+    #   interval: 10s
 
   nginx:
     depends_on:

@@ -14,8 +14,43 @@
               "type": "empty",
               "state": {}
             }
+          },
+          {
+            "id": "d0efe2aa684f36d5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "notes/Inception.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "1f815a50b2510e69",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "notes/Inception.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "7e20240305ebcbb7",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.4.16"
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -65,7 +100,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "59c987357472e8d3",
@@ -81,6 +117,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "notes/Inception.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +134,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "notes/Inception.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +156,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "notes/Inception.md"
+              }
             }
           }
         ]
@@ -138,8 +178,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "485106320173d520",
+  "active": "7e20240305ebcbb7",
   "lastOpenFiles": [
-    "Untitled"
+    "srcs/requirements/mariadb/tools/docker-entrypoint.sh",
+    "srcs/requirements/mariadb/tools/docker-entrypoint_old.sh",
+    "notes/Inception.md",
+    "notes/Untitled 1.md",
+    "Untitled.md",
+    "notes"
   ]
 }

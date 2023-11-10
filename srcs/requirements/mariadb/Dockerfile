@@ -3,9 +3,11 @@ FROM debian:bullseye-slim
 
 RUN apt-get update && \
     apt-get install -y mariadb-server dumb-init
+# COPY [--chown=<user>:<group>] [--chmod=<perms>] <src>... <dest> 충격적 
+COPY ./conf/my.cnf /etc/mysql/my.cnf
+COPY ./tools/docker-entrypoint.sh /docker-entrypoint.sh
 
-COPY  --chmod=777 ./conf/my.cnf /etc/mysql/my.cnf
-COPY  --chmod=777 ./tools/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 EXPOSE 3306
 
