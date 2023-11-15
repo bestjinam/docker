@@ -1,10 +1,5 @@
 #!/bin/bash
 set -e
-
-# Set privileges
-chown -R www-data:www-data /var/www/html
-chmod -R 755 /var/www/html
-
 # Make directory for php7.4-fpm.pid
 mkdir -p /run/php
 
@@ -20,6 +15,11 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     wp core install --url=https://$DOMAIN_NAME --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --allow-root
     wp user create $WP_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASSWORD --allow-root
 fi
+
+# Set privileges
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
+
 
 # Execute php-fpm
 exec php-fpm7.4 -F
