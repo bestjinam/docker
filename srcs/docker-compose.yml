@@ -8,7 +8,7 @@ services:
     image: mariadb
     pull_policy: never
     container_name: mariadb
-    restart: on-failure
+    restart: always
     env_file: .env
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -36,7 +36,7 @@ services:
     image: wordpress
     pull_policy: never
     container_name: wordpress
-    restart: on-failure
+    restart: always
     env_file: .env
     volumes:
       - wordpress_data:/var/www/html
@@ -54,7 +54,7 @@ services:
     image: nginx
     pull_policy: never
     container_name: nginx
-    restart: on-failure
+    restart: always
     env_file: .env
     volumes:
       - wordpress_data:/var/www/html
@@ -64,6 +64,8 @@ services:
       docker-network:
         aliases:
           - jinam.42.fr
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
 
 volumes:
   wordpress_data:
