@@ -2,7 +2,7 @@ FROM debian:bullseye-slim
 
 #RUN echo "Acquire::Check-Valid-Until \"false\";\nAcquire::Check-Date \"false\";"
 RUN apt-get update && \
-    apt-get install -y nginx openssl dumb-init
+    apt-get install -y nginx openssl dumb-init curl
 
 COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 COPY ./tools/docker-entrypoint.sh /docker-entrypoint.sh
