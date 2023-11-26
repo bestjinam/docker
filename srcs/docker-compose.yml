@@ -5,8 +5,8 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: mariadb
     pull_policy: never
+    image: mariadb:jinam
     container_name: mariadb
     restart: always
     env_file: .env
@@ -26,6 +26,7 @@ services:
         retries: 3
 
   wordpress:
+    image: wordpress:jinam
     depends_on:
       #- mariadb
       mariadb:
@@ -33,7 +34,6 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress
     pull_policy: never
     container_name: wordpress
     restart: always
@@ -46,18 +46,19 @@ services:
       - docker-network
 
   nginx:
+    image: nginx:jinam
     depends_on:
       - wordpress
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: nginx
     pull_policy: never
     container_name: nginx
     restart: always
     env_file: .env
     volumes:
       - wordpress_data:/var/www/html
+      - my_ssl_data:/etc/my_ssl
     ports:
       - "443:443"
     networks:
@@ -66,7 +67,10 @@ services:
           - jinam.42.fr
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
-
+      start_interval: 1s
+      interval: 5s
+      timeout: 5s
+      retries: 3
 volumes:
   wordpress_data:
     name: wordpress_data
@@ -82,6 +86,13 @@ volumes:
       type: none
       o: bind
       device: /home/jinam/data/mariadb_data
+  my_ssl_data:
+    name: my_ssl_data
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jinam/data/self_cert_ssl_files
 
 networks:
   docker-network:

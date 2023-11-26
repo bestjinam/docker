@@ -1,10 +1,10 @@
 DOCKER_COMPOSE := docker compose
-
 .PHONY: all up down restart stop build clean fclean bash logs show makeDirs
 
 all: up
 
 up: makeDirs
+	sh ./tools/make_ssl.sh
 	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml up -d --build
 
 down:
@@ -22,16 +22,14 @@ build:
 clean: down
 	docker sysstem prune -f --all 
 
-fclean: clean
-	@sudo rm -rf /home/jinam/data
-	@docker volume rm $$(docker volume ls -q)
-
-bash:
-	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml exec -it $(SERVICE)
-
+fclean:
+	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml down -v --rmi all
+	sudo rm -rf /home/jinam/data
 logs:
 	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml logs $(SERVICE)
 
+bash:
+	docker exec -it $(service) /bin/bash
 show: 
 	docker ps -a | tail -n +1
 	docker images | tail -n +1
