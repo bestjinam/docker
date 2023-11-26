@@ -19,12 +19,12 @@ stop:
 build:
 	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml build
 
-clean:
-	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml clean
+clean: down
+	docker sysstem prune -f --all 
 
-fclean:
-	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml down -v --rmi all
-	sudo rm -rf /home/jinam/data
+fclean: clean
+	@sudo rm -rf /home/jinam/data
+	@docker volume rm $$(docker volume ls -q)
 
 bash:
 	$(DOCKER_COMPOSE) -f srcs/docker-compose.yml exec -it $(SERVICE)
